@@ -145,7 +145,28 @@ def BFS():
                 States.append(_state+[(updatedPlayer,updatedBox)])
                 Moves.append(_action+[state[-1]])
 
+def DFS():
+    iterations = 0
+    OPENING_STATE = (INITIAL_PLAYER_POSITION,INIITAL_BOX_POSITION)
+    States = collections.deque([[OPENING_STATE]])
+    Moves = [[0]]
+    visited = set() 
 
+    while States:
+        _state = States.pop()
+        _action = Moves.pop()
+        iterations+=1
+        if isSolved(_state[-1][-1]):
+            print(f"\nTotal iterations: {iterations}")
+            print(f"The path:         {':'.join(_action[1:])}\n")
+            break
+        if _state[-1] not in visited:
+            visited.add(_state[-1])
+            
+            for state in Explore(_state[-1][0],_state[-1][-1]):
+                updatedPlayer,updatedBox = updateGame(_state[-1][0],_state[-1][-1],state)
+                States.append(_state+[(updatedPlayer,updatedBox)])
+                Moves.append(_action+[state[-1]])
         
 
 if __name__=="__main__":
