@@ -96,13 +96,13 @@ def updateGame(playerPosition,boxPosition,state):
         
 def A_STAR():
     iterations = 0
-    OPENING_STATE = (INITIAL_PLAYER_POSITION,INIITAL_BOX_POSITION)
+    OPENING_STATE = (INITIAL_PLAYER_POSITION,INITIAL_BOX_POSITION)
     Moves = []
     States = []
     visited = set()
 
-    heapq.heappush(States , (getHeuristic(INIITAL_BOX_POSITION),[OPENING_STATE]))
-    heapq.heappush(Moves, (getHeuristic(INIITAL_BOX_POSITION),[0]))
+    heapq.heappush(States , (getHeuristic(INITIAL_BOX_POSITION),[OPENING_STATE]))
+    heapq.heappush(Moves, (getHeuristic(INITIAL_BOX_POSITION),[0]))
     while States:
         _,_state = heapq.heappop(States)
         _,_action = heapq.heappop(Moves)
@@ -124,7 +124,7 @@ def A_STAR():
 
 def BFS():
     iterations = 0
-    OPENING_STATE = (INITIAL_PLAYER_POSITION,INIITAL_BOX_POSITION)
+    OPENING_STATE = (INITIAL_PLAYER_POSITION,INITIAL_BOX_POSITION)
     States = collections.deque([[OPENING_STATE]])
     Moves = collections.deque([[0]])
     visited = set() 
@@ -147,7 +147,7 @@ def BFS():
 
 def DFS():
     iterations = 0
-    OPENING_STATE = (INITIAL_PLAYER_POSITION,INIITAL_BOX_POSITION)
+    OPENING_STATE = (INITIAL_PLAYER_POSITION,INITIAL_BOX_POSITION)
     States = collections.deque([[OPENING_STATE]])
     Moves = [[0]]
     visited = set() 
@@ -189,9 +189,20 @@ if __name__=="__main__":
 
     INITIAL_STATE = np.array(INITIAL_STATE)
 
-    INIITAL_BOX_POSITION = getPosition(INITIAL_STATE,need="boxes")
+    INITIAL_BOX_POSITION = getPosition(INITIAL_STATE,need="boxes")
     INITIAL_PLAYER_POSITION = getPosition(INITIAL_STATE,need="player")
 
     WALL_POSITION = getPosition(INITIAL_STATE,need="walls")
     BOMB_POSITION = getPosition(INITIAL_STATE,need="bombs")
+    
+    method = input("Choose the algorihtm: ")
+    match method:
+        case "astar":
+            A_STAR()
+        case "dfs":
+            DFS()
+        case "bfs":
+            BFS()
+        case _:
+            print("Sorry, Invalid Method")
     
