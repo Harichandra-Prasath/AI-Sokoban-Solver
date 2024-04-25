@@ -122,7 +122,28 @@ def A_STAR():
                 heapq.heappush(States,(heuristic+cost,_state+[(updatedPlayer,updatedBox)]))
                 heapq.heappush(Moves,(heuristic+cost,_action+[state[-1]]))
 
+def BFS():
+    iterations = 0
+    OPENING_STATE = (INITIAL_PLAYER_POSITION,INIITAL_BOX_POSITION)
+    States = collections.deque([[OPENING_STATE]])
+    Moves = collections.deque([[0]])
+    visited = set() 
 
+    while States:
+        _state = States.popleft()
+        _action = Moves.popleft()  
+        iterations+=1
+        if isSolved(_state[-1][-1]):
+            print(f"\nTotal iterations: {iterations}")
+            print(f"The path:         {':'.join(_action[1:])}\n")
+            break
+        if _state[-1] not in visited:
+            visited.add(_state[-1])
+            
+            for state in Explore(_state[-1][0],_state[-1][-1]):
+                updatedPlayer,updatedBox = updateGame(_state[-1][0],_state[-1][-1],state)
+                States.append(_state+[(updatedPlayer,updatedBox)])
+                Moves.append(_action+[state[-1]])
 
 
         
